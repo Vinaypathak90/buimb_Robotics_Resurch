@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUIMB BLOG | Innovation & Power</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        buimbRed: { 
+                            50: '#FEF2F2',
+                            100: '#FFE1E1',
+                            600: '#E31B23', // Primary Red
+                            700: '#C4121A' 
+                        },
+                        buimbWhite: '#FFFFFF',
+                        buimbDark: '#0F172A', // Richer Dark Blue/Black
+                        buimbGray: '#64748B',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    animation: {
+                        'slow-zoom': 'slowZoom 20s linear infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        slowZoom: {
+                            '0%': { transform: 'scale(1)' },
+                            '100%': { transform: 'scale(1.15)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style> 
+        body { 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+        }
+
+        /* --- CUSTOM SCROLLBAR FOR SMOOTH FEEL --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #E31B23; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C4121A; }
+        
+        /* --- LABRIX STYLE ANIMATION ENGINE --- */
+        .labrix-reveal {
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+            will-change: transform, opacity;
+        }
+        .labrix-reveal.active { opacity: 1; transform: translate(0, 0) scale(1); }
+        .slide-down { transform: translateY(-60px); }
+        .slide-up { transform: translateY(60px); }
+        .slide-left { transform: translateX(100px); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
+</head>
+<body class="bg-white text-buimbDark selection:bg-buimbRed-600 selection:text-white">
+
+    <header class="bg-white/90 sticky top-0 z-50 border-b border-gray-100 backdrop-blur-lg transition-all duration-300" id="navbar">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="relative">
+                    <img src="/assets/blogo.png" alt="Logo" class="h-10 w-auto object-contain relative z-10 transition-transform duration-500 group-hover:rotate-6"/>
+                    <div class="absolute inset-0 bg-buimbRed-600 blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-buimbDark">
+                    BUIMB <span class="text-buimbRed-600">Robotics</span>
+                </span>
+            </a>
+            <div class="hidden lg:flex items-center space-x-8 text-sm font-semibold text-buimbGray">
+                <a href="index.html" class="hover:text-buimbRed-600 transition-colors duration-300">Home</a>
+                <a href="Research.html" class="hover:text-buimbRed-600 transition-colors duration-300">Research</a>
+                <a href="Innovation.html" class="hover:text-buimbRed-600 transition-colors duration-300">Blog</a>
+                <a href="about.html" class="hover:text-buimbRed-600 transition-colors duration-300">About</a>
+                <a href="papers.html" class="hover:text-buimbRed-600 transition-colors duration-300">Papers</a>
+            
+            </div>
+            <div class="hidden lg:block">
+                <a href="Contact.html" class="relative overflow-hidden group bg-buimbRed-600 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ease-out hover:bg-buimbRed-700 hover:shadow-[0_4px_20px_rgba(227,27,35,0.3)] hover:-translate-y-0.5 active:scale-95 flex items-center">
+                    <span class="relative z-10">Partner With Us</span>
+                    <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-white/10"></div>
+                </a>
+            </div>
+            <button id="mobile-menu-btn" class="lg:hidden text-gray-600 hover:text-buimbRed-600 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 p-6 flex flex-col space-y-4 shadow-2xl absolute w-full z-50">
+             <a href="index.html" class="font-medium hover:text-buimbRed-600">Home</a>
+             <a href="Research.html" class="font-medium hover:text-buimbRed-600">Research Areas</a>
+             <a href="Innovation.html" class="font-medium hover:text-buimbRed-600">Blog</a>
+             <a href="about.html" class="font-medium hover:text-buimbRed-600">About</a>
+             <a href="#" class="hover:text-buimbRed-600 transition-colors duration-300">papers</a>
+             <a href="Contact.html" class="bg-buimbRed-600 text-white text-center px-4 py-3 rounded-full w-full font-bold shadow-lg">Partner With Us</a>
+        </div>
+    </header>
+<!--HEader-->
+   <section class="relative bg-white py-16 md:pt-12 md:pb-24 overflow-hidden">
+        
+        <div class="absolute top-0 right-0 w-64 h-64 md:w-[600px] md:h-[600px] bg-red-50 rounded-full blur-[60px] md:blur-[100px] translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+        
+        <div class="absolute bottom-0 left-0 w-48 h-48 md:w-[400px] md:h-[400px] bg-red-50 rounded-full blur-[50px] md:blur-[80px] -translate-x-1/3 translate-y-1/2 pointer-events-none"></div>
+        
+        <div class="absolute inset-0 opacity-40" ></div>
+
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center space-y-4 md:space-y-6">
+                
+                <div class="labrix-reveal slide-down inline-flex items-center px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-red-100 bg-red-50 text-buimbRed-600 font-bold text-[10px] md:text-xs tracking-widest uppercase">
+                    <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-buimbRed-600 mr-2 animate-pulse"></span>
+                    BLOGS
+                </div>
+                
+                <h1 class="labrix-reveal slide-up delay-100 text-3xl sm:text-4xl md:text-6xl font-extrabold text-buimbDark leading-tight">
+                    AI & Perception<br class="hidden md:block"> 
+                    <span class="text-buimbRed-600 relative inline-block">
+                        Enabling Machines to See and Understand the World
+                        <span class="absolute bottom-2 left-0 w-full h-3 bg-red-100 -z-10 opacity-60 rounded-sm"></span>
+                    </span>
+                </h1>
+                
+                <p class="labrix-reveal slide-up delay-200 text-base md:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto px-2 md:px-0">
+                   The BUIMB Robotics Blog is a space where we share insights from ongoing research, breakthrough ideas, and real-world experiences in robotics and artificial intelligence. 
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+<section class="py-20 md:py-28 bg-white relative overflow-hidden" id="blog-section">
+    <div class="container mx-auto px-6">
+        
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div class="max-w-2xl">
+                <div class="labrix-reveal slide-down inline-flex items-center px-4 py-1.5 rounded-full bg-gray-50 border border-gray-200 shadow-sm text-buimbRed-600 font-bold text-xs tracking-widest uppercase mb-4">
+                    <span class="w-2 h-2 rounded-full bg-buimbRed-600 mr-2 animate-pulse"></span>
+                    Our Blog
+                </div>
+                <h2 class="labrix-reveal slide-down delay-100 text-4xl md:text-5xl font-extrabold text-buimbDark leading-tight">
+                    Stay updated with the latest in <br>
+                    <span class="text-buimbRed-600">robotics research & innovation</span>
+                </h2>
+            </div>
+
+            <div class="labrix-reveal slide-left delay-200 hidden md:block">
+                <button id="view-all-btn" class="inline-flex items-center bg-buimbRed-600 text-white px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 hover:bg-buimbDark hover:shadow-lg hover:-translate-y-1 group">
+                    View All Blogs
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="md:hidden text-buimbGray text-sm font-bold animate-pulse">
+                Swipe to explore ->
+            </div>
+        </div>
+
+        <div id="blog-container" class="labrix-reveal slide-up delay-300 flex overflow-x-auto pb-10 gap-6 snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 md:pb-0 md:overflow-visible" style="scrollbar-width: none;">
+
+            <!-- Card 1 -->
+            <div class="min-w-[85vw] snap-center md:min-w-0 group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-5 shadow-sm border border-gray-100">
+                    <img src="assets/roboticslab.jpg"
+                         alt="Robotics Lab"
+                         class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-buimbDark px-3 py-1 rounded-full text-xs font-bold shadow-sm">Sep 12, 2025</div>
+                </div>
+                <h3 class="text-xl font-bold text-buimbDark leading-snug mb-3 group-hover:text-buimbRed-600 transition-colors">
+                    Inside a Robotics Research Lab: Building Intelligent Machines
+                </h3>
+                <a href="robolab.html" class="inline-flex items-center text-buimbRed-600 font-bold text-sm hover:underline">Read More</a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="min-w-[85vw] snap-center md:min-w-0 group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-5 shadow-sm border border-gray-100">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop"
+                         alt="AI Robotics"
+                         class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-buimbDark px-3 py-1 rounded-full text-xs font-bold shadow-sm">Oct 05, 2025</div>
+                </div>
+                <h3 class="text-xl font-bold text-buimbDark leading-snug mb-3 group-hover:text-buimbRed-600 transition-colors">
+                    Artificial Intelligence in Autonomous Robotic Systems
+                </h3>
+                <a href="robolab.html" class="inline-flex items-center text-buimbRed-600 font-bold text-sm hover:underline">Read More</a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="min-w-[85vw] snap-center md:min-w-0 group cursor-pointer">
+                <div class="relative overflow-hidden rounded-2xl mb-5 shadow-sm border border-gray-100">
+                    <img src="assets/industrial.jpg"
+                         alt="Industrial Robotics"
+                         class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-buimbDark px-3 py-1 rounded-full text-xs font-bold shadow-sm">Nov 20, 2025</div>
+                </div>
+                <h3 class="text-xl font-bold text-buimbDark leading-snug mb-3 group-hover:text-buimbRed-600 transition-colors">
+                    Industrial Robotics and the Future of Smart Factories
+                </h3>
+                <a href="robolab.html" class="inline-flex items-center text-buimbRed-600 font-bold text-sm hover:underline">Read More</a>
+            </div>
+
+            <!-- Card 4 (Hidden Mobile) -->
+            <div class="min-w-[85vw] snap-center md:min-w-0 group cursor-pointer hidden-blog md:hidden">
+                <div class="relative overflow-hidden rounded-2xl mb-5 shadow-sm border border-gray-100">
+                    <img src="assets/autonomus.jpg"
+                         alt="Robot Navigation"
+                         class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-buimbDark px-3 py-1 rounded-full text-xs font-bold shadow-sm">Dec 01, 2025</div>
+                </div>
+                <h3 class="text-xl font-bold text-buimbDark leading-snug mb-3 group-hover:text-buimbRed-600 transition-colors">
+                    Autonomous Navigation: How Robots Understand the World
+                </h3>
+                <a href="robolab.html" class="inline-flex items-center text-buimbRed-600 font-bold text-sm hover:underline">Read More</a>
+            </div>
+
+            <!-- Card 5 (Hidden Mobile) -->
+            <div class="min-w-[85vw] snap-center md:min-w-0 group cursor-pointer hidden-blog md:hidden">
+                <div class="relative overflow-hidden rounded-2xl mb-5 shadow-sm border border-gray-100">
+                    <img src="https://images.unsplash.com/photo-1580983218765-f663bec07b37?q=80&w=800&auto=format&fit=crop"
+                         alt="Medical Robotics"
+                         class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-buimbDark px-3 py-1 rounded-full text-xs font-bold shadow-sm">Dec 15, 2025</div>
+                </div>
+                <h3 class="text-xl font-bold text-buimbDark leading-snug mb-3 group-hover:text-buimbRed-600 transition-colors">
+                    Medical Robotics: Precision Technology in Healthcare
+                </h3>
+                <a href="robolab.html" class="inline-flex items-center text-buimbRed-600 font-bold text-sm hover:underline">Read More</a>
+            </div>
+
+            <!-- Card 6 (Hidden Mobile) -->
+            <div class="min-w-[85vw] snap-center md:min-w-0 group cursor-pointer hidden-blog md:hidden">
+                <div class="relative overflow-hidden rounded-2xl mb-5 shadow-sm border border-gray-100">
+                    <img src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=800&auto=format&fit=crop"
+                         alt="Automation Trends"
+                         class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-buimbDark px-3 py-1 rounded-full text-xs font-bold shadow-sm">Jan 10, 2026</div>
+                </div>
+                <h3 class="text-xl font-bold text-buimbDark leading-snug mb-3 group-hover:text-buimbRed-600 transition-colors">
+                    Emerging Trends in Robotics and Industrial Automation
+                </h3>
+                <a href="robolab.html" class="inline-flex items-center text-buimbRed-600 font-bold text-sm hover:underline">Read More</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer class="bg-buimbDark pt-20 pb-10 border-t border-gray-800 text-gray-300 font-sans relative overflow-hidden">
+        
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-buimbRed-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                
+                <div class="space-y-6">
+                    <a href="#" class="flex items-center space-x-2 group">
+                        <div class="relative">
+                            <img src="/assets/blogo.png" alt="Logo" class="h-8 w-auto object-contain grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-300"/>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tight text-white">
+                            BUIMB <span class="text-buimbRed-600">Robotics</span>
+                        </span>
+                    </a>
+                    
+                    <p class="text-sm leading-relaxed text-gray-400">
+                        Pioneering the future of automation through advanced research in AI, neural networks, and mechanical precision. We build technology that empowers industries.
+                    </p>
+
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-buimbRed-600 hover:text-white transition-all duration-300 group">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-buimbRed-600 hover:text-white transition-all duration-300 group">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-buimbRed-600 hover:text-white transition-all duration-300 group">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6 flex items-center">
+                        <span class="w-8 h-0.5 bg-buimbRed-600 mr-3"></span> Company
+                    </h3>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">About Us</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Our Leadership</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Careers <span class="bg-gray-700 text-white text-[10px] px-1.5 py-0.5 rounded ml-1">Hiring</span></a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">News & Media</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6 flex items-center">
+                        <span class="w-8 h-0.5 bg-buimbRed-600 mr-3"></span> Research Areas
+                    </h3>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Industrial Automation</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">AI & Computer Vision</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Aerial Robotics</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Humanoid Systems</a></li>
+                        <li><a href="#" class="hover:text-buimbRed-600 hover:pl-2 transition-all duration-300 block">Nanotechnology</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6 flex items-center">
+                        <span class="w-8 h-0.5 bg-buimbRed-600 mr-3"></span> Stay Updated
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4">
+                        Subscribe to our newsletter for the latest breakthroughs in robotics R&D.
+                    </p>
+                    <form class="space-y-3">
+                        <div class="relative">
+                            <input type="email" placeholder="Enter your email" class="w-full bg-gray-800 border border-gray-700 text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-buimbRed-600 focus:ring-1 focus:ring-buimbRed-600 transition-all placeholder-gray-500" required>
+                        </div>
+                        <button type="submit" class="w-full bg-buimbRed-600 hover:bg-white hover:text-buimbRed-600 text-white font-bold text-sm px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-center group">
+                            Subscribe Now
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <div class="text-center md:text-left">
+                    &copy; 2026 BUIMB Robotics Research. All rights reserved.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Sitemap</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    
+    
+</body>
+</html>
+
+<script>
+      // 1. Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // 2. Scroll Reveal Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.labrix-reveal');
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealElements.forEach(el => observer.observe(el));
+        });
+document.addEventListener('DOMContentLoaded', () => {
+            const viewAllBtn = document.getElementById('view-all-btn');
+            
+            if (viewAllBtn) {
+                viewAllBtn.addEventListener('click', () => {
+                    // Logic: Toggle the 'md:hidden' class on the extra blogs
+                    const hiddenBlogs = document.querySelectorAll('.hidden-blog');
+                    
+                    hiddenBlogs.forEach(blog => {
+                        // If it has md:hidden, remove it (Show it on Desktop)
+                        if (blog.classList.contains('md:hidden')) {
+                            blog.classList.remove('md:hidden');
+                            blog.classList.add('labrix-reveal', 'slide-up', 'active'); // Add animation
+                        } else {
+                            // If it's visible, hide it again (Collapse)
+                            blog.classList.add('md:hidden');
+                        }
+                    });
+
+                    // Update Button Text
+                    const isExpanded = !hiddenBlogs[0].classList.contains('md:hidden');
+                    viewAllBtn.innerHTML = isExpanded 
+                        ? 'Show Less <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>'
+                        : 'View All Blogs <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+                });
+            }
+        });
+</script>
